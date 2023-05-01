@@ -16,7 +16,7 @@ fi
 
 if [ "downgrade" == $1 ]; then
     echo "Downgrading with args: ${@:2}"
-    # Use this line to call your code
+    ./modify_subscription/views.py downgrade_subscription "${@:2}"
     exit;
 fi
 
