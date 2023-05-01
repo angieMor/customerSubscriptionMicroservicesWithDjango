@@ -4,6 +4,8 @@ import json
 from django.http import HttpResponse
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
+from .forms import ConfigureFeaturesForm
+from django.http import JsonResponse
 
 
 # Fetch the user data from the API microservice
@@ -82,6 +84,10 @@ def downgrade_subscription(request, subscription_id):
     if request.method == 'PUT':
         user = get_userdata(subscription_id)
 
+        if isinstance(user, HttpResponse):
+            # If the response is an HttpResponse, return it directly
+            return user
+
         subscription = user["data"]["SUBSCRIPTION"]
 
         # Validates subscription value of the user, to downgrated if possible
@@ -108,5 +114,53 @@ def downgrade_subscription(request, subscription_id):
         # Update the user information in the customerdata microservice
         result = set_customerdata(user, subscription_id)
         return result
+    else:
+        return HttpResponse("Method not supported", status=405)
+
+
+@csrf_exempt
+# Customize the features for basic/premium subscriptions only
+def customize_features(request, subscription_id):
+    # Only PUT method is supported
+    if request.method == 'PUT':
+        # Load request data as JSON
+        data = json.loads(request.body)
+        # Validate the request data using ConfigureFeaturesForm
+        form = ConfigureFeaturesForm(data)
+
+        # If the form is valid, proceed with processing the request.
+        if form.is_valid():
+            user = get_userdata(subscription_id)
+
+            if isinstance(user, HttpResponse):
+                # If the response is an HttpResponse, return it directly
+                return user
+
+            # Deny customization for users with a free subscription
+            if user["data"]["SUBSCRIPTION"] == "free":
+                return HttpResponse("Your subscription doesn't allow you to customize your features", status=400)
+
+            # Retrieve the user's enabled features
+            features = user["data"]["ENABLED_FEATURES"]
+
+            # Update the user's enabled features based on the request data
+            for key in data:
+                if data[key] == 0:
+                    data[key] = False
+                    features[key] = data[key]
+                elif data[key] != 1:
+                    return HttpResponse("Values can only be 0 for False, or 1 for True", status=400)
+                else:
+                    data[key] = True
+                    features[key] = data[key]
+
+            # Save the updated user data
+            set_customerdata(user, subscription_id)
+
+            return HttpResponse("Features updated", status=200)
+        else:
+            # If the form is not valid, log the errors and return them as JSON
+            return JsonResponse({'errors': form.errors}, status=400)
+
     else:
         return HttpResponse("Method not supported", status=405)
