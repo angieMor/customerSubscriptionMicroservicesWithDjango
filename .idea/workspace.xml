@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0865f5a-81cf-4018-90d5-7130051bebad" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/02_your_code/cli" beforeDir="false" afterPath="$PROJECT_DIR$/02_your_code/cli" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/02_your_code/modify_subscription/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/02_your_code/modify_subscription/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +27,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "last_opened_file_path": "C:/Users/ASUS/Desktop/challenge"
   }
 }]]></component>
