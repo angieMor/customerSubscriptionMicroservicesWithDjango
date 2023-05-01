@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0865f5a-81cf-4018-90d5-7130051bebad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/02_your_code/db.sqlite3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/02_your_code/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/02_your_code/cli" beforeDir="false" afterPath="$PROJECT_DIR$/02_your_code/cli" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/02_your_code/modify_subscription/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/02_your_code/modify_subscription/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/02_your_code/modify_subscription/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,13 +30,37 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/ASUS/Desktop/challenge/02_your_code"
+    "last_opened_file_path": "C:/Users/ASUS/Desktop/challenge"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\challenge\02_your_code\modify_subscription" />
       <recent name="C:\Users\ASUS\Desktop\challenge\02_your_code" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="pytest for test_rules.test_upgrade_free_to_basic" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="challenge" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/03_end_to_end_testing" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_rules.test_upgrade_free_to_basic&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.pytest for test_rules.test_upgrade_free_to_basic" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

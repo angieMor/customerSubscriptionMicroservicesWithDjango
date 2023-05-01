@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+import sys
+
 import requests
 import json
 
@@ -46,7 +50,7 @@ def set_customerdata(user, subscription_id):
 
 @csrf_exempt
 # Upgrades the subscription level of a user, depending on its current subscription
-def upgrade_subscription(request, subscription_id):
+def upgrade_subscription(request, subscription_id, subscription_level):
     # Only PUT method is supported
     if request.method == 'PUT':
         user = get_userdata(subscription_id)
@@ -55,17 +59,21 @@ def upgrade_subscription(request, subscription_id):
             # If the response is an HttpResponse, return it directly
             return user
 
+        level_asked = subscription_level.lower()
+        # Validates that only enters one of the 3 subscriptions
+        if level_asked != "free" and level_asked != "basic" and level_asked != "premium":
+            return HttpResponse("Only allowed:\nfree\nbasic\npremium")
+
         subscription = user["data"]["SUBSCRIPTION"]
 
-        # Validate the actual subscription of the user, to upgrade it if possible
-        if subscription == "free":
-            user["data"]["SUBSCRIPTION"] = "basic"
-
-        elif subscription == "basic":
-            user["data"]["SUBSCRIPTION"] = "premium"
-
-        else:
+        # Premium users can't upgrade more
+        if subscription == "premium":
             return HttpResponse("You are already premium!", status=400)
+        elif subscription == "basic" and level_asked == "free":
+            return HttpResponse("Case not allowed here, please try the downgrade service", status=400)
+
+        # Assign the level of the subscription asked
+        user["data"]["SUBSCRIPTION"] = level_asked
 
         # Insert the label UPGRADE_DATE with the current date and time
         user["data"]["UPGRADE_DATE"] = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -79,7 +87,7 @@ def upgrade_subscription(request, subscription_id):
 
 @csrf_exempt
 # Downgrades the subscription level of a user, depending on its current subscription
-def downgrade_subscription(request, subscription_id):
+def downgrade_subscription(request, subscription_id, subscription_level):
     # Only PUT method is supported
     if request.method == 'PUT':
         user = get_userdata(subscription_id)
@@ -88,15 +96,18 @@ def downgrade_subscription(request, subscription_id):
             # If the response is an HttpResponse, return it directly
             return user
 
+        level_asked = subscription_level.lower()
+        # Validates that only enters one of the 3 subscriptions
+        if level_asked != "free" and level_asked != "basic" and level_asked != "premium":
+            return HttpResponse("Only allowed:\nfree\nbasic\npremium")
+
         subscription = user["data"]["SUBSCRIPTION"]
 
-        # Validates subscription value of the user, to downgrated if possible
-        if subscription == "premium":
-            user["data"]["SUBSCRIPTION"] = "basic"
-
-        elif subscription == "basic":
+        # Only free subscriptors are not allowed to downgrade more
+        if subscription == "free":
+            return HttpResponse("You're have already a free subscription")
+        elif level_asked == "free":
             # Downgrade to free will turn off all the features
-            user["data"]["SUBSCRIPTION"] = "free"
 
             user["data"]["ENABLED_FEATURES"]["CERTIFICATES_INSTRUCTOR_GENERATION"] = False
             user["data"]["ENABLED_FEATURES"]["INSTRUCTOR_BACKGROUND_TASKS"] = False
@@ -104,9 +115,11 @@ def downgrade_subscription(request, subscription_id):
             user["data"]["ENABLED_FEATURES"]["ENABLE_COURSE_DISCOVERY"] = False
             user["data"]["ENABLED_FEATURES"]["ENABLE_DASHBOARD_SEARCH"] = False
             user["data"]["ENABLED_FEATURES"]["ENABLE_EDXNOTES"] = False
+        elif level_asked == "premium":
+            return HttpResponse("Case not allowed here, please try the upgrade service", status=400)
 
-        else:
-            return HttpResponse("Subscription can't be more downgraded")
+        # Assign the level of the subscription asked
+        user["data"]["SUBSCRIPTION"] = level_asked
 
         # Insert the label DOWNGRADE_DATE with the current date and time
         user["data"]["DOWNGRADE_DATE"] = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -164,3 +177,10 @@ def customize_features(request, subscription_id):
 
     else:
         return HttpResponse("Method not supported", status=405)
+
+if __name__ == "__main__":
+    command = sys.argv[1]
+    if command == "upgrade_subscription":
+        # Pass the remaining arguments to the upgrade_subscription function
+        upgrade_subscription(*sys.argv[2:])
+    # Other commands and cases here

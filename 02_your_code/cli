@@ -10,6 +10,7 @@ fi
 if [ "upgrade" == $1 ]; then
     echo "Upgrading with args: ${@:2}"
     # Use this line to call your code
+    ./modify_subscription/views.py upgrade_subscription "${@:2}"
     exit;
 fi
 
