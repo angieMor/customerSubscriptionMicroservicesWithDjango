@@ -73,3 +73,40 @@ def upgrade_subscription(request, subscription_id):
         return result
     else:
         return HttpResponse("Method not supported", status=405)
+
+
+@csrf_exempt
+# Downgrades the subscription level of a user, depending on its current subscription
+def downgrade_subscription(request, subscription_id):
+    # Only PUT method is supported
+    if request.method == 'PUT':
+        user = get_userdata(subscription_id)
+
+        subscription = user["data"]["SUBSCRIPTION"]
+
+        # Validates subscription value of the user, to downgrated if possible
+        if subscription == "premium":
+            user["data"]["SUBSCRIPTION"] = "basic"
+
+        elif subscription == "basic":
+            # Downgrade to free will turn off all the features
+            user["data"]["SUBSCRIPTION"] = "free"
+
+            user["data"]["ENABLED_FEATURES"]["CERTIFICATES_INSTRUCTOR_GENERATION"] = False
+            user["data"]["ENABLED_FEATURES"]["INSTRUCTOR_BACKGROUND_TASKS"] = False
+            user["data"]["ENABLED_FEATURES"]["ENABLE_COURSEWARE_SEARCH"] = False
+            user["data"]["ENABLED_FEATURES"]["ENABLE_COURSE_DISCOVERY"] = False
+            user["data"]["ENABLED_FEATURES"]["ENABLE_DASHBOARD_SEARCH"] = False
+            user["data"]["ENABLED_FEATURES"]["ENABLE_EDXNOTES"] = False
+
+        else:
+            return HttpResponse("Subscription can't be more downgraded")
+
+        # Insert the label DOWNGRADE_DATE with the current date and time
+        user["data"]["DOWNGRADE_DATE"] = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        # Update the user information in the customerdata microservice
+        result = set_customerdata(user, subscription_id)
+        return result
+    else:
+        return HttpResponse("Method not supported", status=405)
