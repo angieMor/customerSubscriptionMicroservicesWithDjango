@@ -1,5 +1,5 @@
-
-if [ "setup" == $1 ]; then
+#!/bin/bash
+if [[ "setup" == $1 ]]; then
     echo "Running setup"
     # Replace this with any commands you need to setup your code
     # For example:
@@ -7,15 +7,17 @@ if [ "setup" == $1 ]; then
     exit;
 fi
 
-if [ "upgrade" == $1 ]; then
+if [[ "upgrade" == $1 ]]; then
     echo "Upgrading with args: ${@:2}"
     # Use this line to call your code
+    source ../venv/Scripts/activate
+    ../venv/Scripts/python.exe ./modify_subscription/views.py upgrade_subscription "${@:2}"
     exit;
 fi
 
-if [ "downgrade" == $1 ]; then
+if [[ "downgrade" == $1 ]]; then
     echo "Downgrading with args: ${@:2}"
-    # Use this line to call your code
+    ./modify_subscription/views.py downgrade_subscription "${@:2}"
     exit;
 fi
 
