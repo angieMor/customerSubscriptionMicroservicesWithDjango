@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
-
 import requests
 import json
 
@@ -177,10 +175,3 @@ def customize_features(request, subscription_id):
 
     else:
         return HttpResponse("Method not supported", status=405)
-
-if __name__ == "__main__":
-    command = sys.argv[1]
-    if command == "upgrade_subscription":
-        # Pass the remaining arguments to the upgrade_subscription function
-        upgrade_subscription(*sys.argv[2:])
-    # Other commands and cases here
